@@ -5,27 +5,48 @@ import Account from './components/Account';
 import { Route, Routes } from 'react-router-dom';
 import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import Store from './store/store';
+import Panel from './components/Panel';
+import Create from './components/Create';
+import { Navbar } from './components/Navbar';
+import Favorito from './components/Favorito';
 
 function App() {
-  return (
-    <div>
-      <h1 className='text-center text-3xl font-bold'>
-        Firebase Auth & Context
-      </h1>
-      <AuthContextProvider>
-        <Routes>
-          <Route path='/' element={<Signin />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route
-            path='/account'
-            element={
+  return ( 
+      <div>   
+       <Store>
+        <AuthContextProvider>
+            <Routes>
+              <Route path='/' element={<Navbar />} />
+              <Route path='/panel' element={
               <ProtectedRoute>
-                <Account />
+                   <Panel />
               </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AuthContextProvider>
+              } />
+              <Route path='/create' element={
+              <ProtectedRoute>
+                  <Create/>
+              </ProtectedRoute>
+               } />
+              <Route path='/login' element={<Signin />} />
+              <Route path='/register' element={<Signup />} />
+              <Route path='/favorito' element={
+              <ProtectedRoute>
+                  <Favorito/>
+              </ProtectedRoute>
+              } />
+              <Route
+                path='/account'
+                element={
+                  <ProtectedRoute>
+                    <Account />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+            </AuthContextProvider>
+        </Store>
+    
     </div>
   );
 }
