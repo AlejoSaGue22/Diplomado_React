@@ -6,18 +6,16 @@ import Layout from './Layout';
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('')
+  
   const { createUser } = UserAuth();
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     try {
       await createUser(email, password);
       navigate('/account')
     } catch (error) {
-      setError(error.message);
       console.log(error.message);
     }
   };

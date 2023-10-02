@@ -6,13 +6,11 @@ import Layout from './Layout';
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { signIn } = UserAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('')
     try {
       await signIn(email, password)
       navigate('/account', {
@@ -23,7 +21,6 @@ const Signin = () => {
         }
       })
     } catch (error) {
-      setError(error.message)
       console.log(error.message)
     }
   };
