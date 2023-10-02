@@ -30,7 +30,7 @@ const Create = () => {
         fontSize: "16px",
         textAlign: "left",
         color: "black",
-      },
+      }, 
       input: {
         padding: "10px",
         borderRadius: "5px",

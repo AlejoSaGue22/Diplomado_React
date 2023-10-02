@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AppContext = createContext({
     items: [],
@@ -18,13 +18,13 @@ export default function Store({children}){
     }
 
     function getItem(id){
-        const item = items.find((item) => item.id == id);
+        const item = items.find((item) => item.id === id);
 
         return item;
     }
 
     function updateItem(item){
-        const index = items.findIndex((i) => i.id == item.id);
+        const index = items.findIndex((i) => i.id === item.id);
         const temp = [ ...items];
         
         temp[index] = { ...item};
