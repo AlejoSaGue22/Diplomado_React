@@ -33,6 +33,21 @@ nav,
 	gap: 20px;
 }
 
+.nuevoEliminar{
+	padding: 10px;
+	border-radius: 1.25rem;
+    background: #e72121;
+    color: #ffffff;
+    font-family: inherit;
+    text-align: center;
+    transition: all 0.375s;
+	margin-bottom: 32px;
+}
+
+.bottomEliminar{
+	margin: 15px;
+}
+
 nav a {
 	text-decoration: none;
 	color: #fff;

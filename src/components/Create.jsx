@@ -1,8 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
-import { useAppContext } from "../store/store";
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from './Layout';
+import { collection, addDoc } from "firebase/firestore";
+import { db } from '../firebase';
 
 const Create = () => {
     const [title, setTitle] = useState("");
@@ -12,7 +13,7 @@ const Create = () => {
     const [completed, setCompleted] = useState(false);   
     const [review, setReview] = useState("");
 
-    const store = useAppContext();
+  
     const navigate = useNavigate();
 
     const inputStyles = {
@@ -78,9 +79,18 @@ const Create = () => {
           review,
         };
     
-        store.createItem(newBook);
-        navigate("/panel");
-      }
+        const booksCollectionRef = collection(db, 'books'); // Cambia 'books' al nombre de tu colección
+
+  // Agrega el nuevo libro a la colección
+            addDoc(booksCollectionRef, newBook)
+              .then((docRef) => {
+                console.log("Libro agregado con ID:", docRef.id);
+                navigate("/panel");
+              })
+              .catch((error) => {
+                console.error("Error al agregar el libro:", error);
+              });
+        }
     
       function handleOnChangeFile(e) {
         const element = e.target;
