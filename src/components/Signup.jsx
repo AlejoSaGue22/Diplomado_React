@@ -14,7 +14,13 @@ const Signup = () => {
     e.preventDefault();
     try {
       await createUser(email, password);
-      navigate('/account')
+      navigate('/account', {
+        replace: true,
+        state: {
+          logged: true,
+          
+        }
+      })
     } catch (error) {
       console.log(error.message);
     }

@@ -5,15 +5,11 @@ const Account = () => {
 
   return (
     <>
-  
-
     <div className='container'>
     <Panel/>
-
-    </div>
-    
+    </div> 
     </>
-    
+
     
   );
 };

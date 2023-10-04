@@ -36,7 +36,7 @@ const Favorito = () => {
           registros.map((registro, index) => (
             <li key={registro.id}>
                  <Book item={registro}/> 
-                 <button className='btn-logout' onClick={eliminarDelLocalStorage}>Eliminar</button>
+                 <button className='btn-logout' onClick={eliminarDelLocalStorage}>Quitar de la Lista</button>
             </li>
              
 

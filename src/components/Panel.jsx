@@ -4,6 +4,7 @@ import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import Layout from "./Layout";
 import Book from "./Book";
+import Swal from 'sweetalert2';
 
 export default function Panel(){
     const navigate = useNavigate();
@@ -26,18 +27,36 @@ export default function Panel(){
       fetchBooks();
     }, []);
 
+
     const handleDelete = async (bookToDelete) => {
       try {
-        const bookRef = doc(db, 'books', bookToDelete.id);
-        await deleteDoc(bookRef);
+        const result = await Swal.fire({
+          title: 'Estas Seguro?',
+          text: "Estos cambios no se pueden revertir!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, Eliminar!'
+        });
   
-        // Filtra los libros eliminados de la lista
-        const updatedBooks = books.filter((book) => book.id !== bookToDelete.id);
-        setBooks(updatedBooks);
+        if (result.isConfirmed) {
+          
+          const bookRef = doc(db, 'books', bookToDelete.id);
+          await deleteDoc(bookRef);
+          const updatedBooks = books.filter((book) => book.id !== bookToDelete.id);
+          setBooks(updatedBooks);
+          Swal.fire(
+            'Deleted!',
+            'El Libro ha sido Eliminado.',
+            'success'
+          );
+        }
       } catch (error) {
         console.error('Error al eliminar el libro: ', error);
       }
     };
+  
   
 
     const Rutascre = () => {
@@ -67,19 +86,14 @@ export default function Panel(){
         gap: "10px",
       };
 
-      const linkStyle = {
-        padding: "10px",
-        display: "block",
-        fontSize: "18px",
-      };
 
     return (
         <Layout>
-            <div style={booksContainer}>
-            <button className="btn-lista" onClick={RutasFav}><Link to="/favorito"  style={linkStyle}>Lista de Favoritos</Link></button>             
-            <button className="btn-panel" onClick={Rutascre}><Link to="/create"  style={linkStyle}>Crear Libro</Link></button> 
+            <div >
+            <button className="btn-lista" onClick={RutasFav}><Link to="/favorito"  >Lista de Favoritos</Link></button>             
+            <button className="btn-panel" onClick={Rutascre}><Link to="/create"  >Crear Libro</Link></button> 
                 
-            <div>
+            <div style={booksContainer}>
                   {books.map((book) => (
                     <Book key={book.id} item={book} onDelete={handleDelete} />
                   ))}

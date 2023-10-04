@@ -62,7 +62,6 @@ const Create = () => {
             break;
 
             default: 
-
         }
       }
     
@@ -85,7 +84,12 @@ const Create = () => {
             addDoc(booksCollectionRef, newBook)
               .then((docRef) => {
                 console.log("Libro agregado con ID:", docRef.id);
-                navigate("/panel");
+                navigate('/panel', {
+                  replace: true,
+                  state: {
+                    logged: true,
+                  }
+                }) 
               })
               .catch((error) => {
                 console.error("Error al agregar el libro:", error);
@@ -128,7 +132,7 @@ const Create = () => {
         <div style={inputStyles.container}>
           <div style={inputStyles.title}>Titulo</div>
           <input
-            style={inputStyles.input}
+        
             type="text"
             name="title"
             onChange={handleChange}
@@ -138,17 +142,16 @@ const Create = () => {
 
         <div style={inputStyles.container}>
           <div style={inputStyles.title}>Autor</div>
-          <input
-            style={inputStyles.input}
+          <input      
             type="text"
             name="author"
             onChange={handleChange}
             value={author}
           />
         </div>
-
+      
         <div style={inputStyles.container}>
-          <div style={inputStyles.title}>Imagen</div>
+          <div >Imagen</div>
           <input type="file" name="cover" onChange={handleOnChangeFile} />
           <div>{!!cover ? <img src={cover} width="200" alt='libro'/> : ""}</div>
         </div>

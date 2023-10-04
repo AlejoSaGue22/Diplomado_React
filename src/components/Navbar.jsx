@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { UserAuth } from '../context/AuthContext';
+import imaA from "../images/logoBiblioteca.jpg";
 
 export const Navbar = () => {
     
@@ -37,13 +38,18 @@ const { user, logout } = UserAuth();
 
   return (
     <>
-            <header >
-            <h1 onClick={RutasInicio}>
-                <Link to='/panel'>BIBLIOTECA</Link>
-            </h1>
-            <h1 onClick={RutasInicio}>
-                <Link to='/panel'>INICIO</Link>
-            </h1>
+            <header className='container-fluid'>
+              <div className='container'>
+              <h1 onClick={RutasInicio} className='titlePrincipal'>    
+                <Link to='/panel'><img className='logo' id="logo" src={imaA} alt='logo'/>BIBLIOTECA</Link>
+               </h1>
+              </div>
+            <div className='inicio'>
+                <h1 onClick={RutasInicio}>
+                    <Link to='/panel'>INICIO</Link>
+                </h1>
+            </div>
+            
 
   
             {
@@ -52,12 +58,11 @@ const { user, logout } = UserAuth();
                 <span className='username'>{user && user.email}</span>
                 <button className='btn-logout' onClick={handleLogout}>Cerrar Sesion</button>
             </div>
-              ) : (
-                <nav>
-                <Link to="/login" >Iniciar Sesion</Link>
-                <Link to="/register" >Registrarse</Link>
-
-            </nav>
+              ) : (            
+                    <nav>                     
+                      <Link to="/login" >Iniciar Sesion</Link>
+                      <Link to="/register" >Registrarse</Link>
+                    </nav>               
               )}
             </header>
             
