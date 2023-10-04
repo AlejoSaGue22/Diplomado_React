@@ -3,7 +3,10 @@ import {useLocation } from "react-router-dom";
 
 
 
-export default function Book({item, onDelete}) {
+
+export default function Book({item, onDelete, onClick}) {
+
+  
 
   const location = useLocation();
   const isFavoritoRoute = location.pathname === "/favorito";
@@ -32,9 +35,15 @@ export default function Book({item, onDelete}) {
       })
   };
 
+  
+
+
   const handleDelete = () => {
     // Llama a la función onDelete con el libro como argumento
     onDelete(item);
+  };
+  const moveBookToCollection = () => {
+    onClick(item, 'prestamos');
   };
       if(!isFavoritoRoute){
 
@@ -51,8 +60,11 @@ export default function Book({item, onDelete}) {
                  
                 <button className="nuevoEliminar" onClick={handleDelete}> <i class='bx bx-message-square-x'></i> Eliminar</button>
                 </div>
+                <div className='botonPrestamo'>
+                 
+                <button className="prestamo" onClick={moveBookToCollection}> <i class='bx bxs-hand'></i>Prestar Libro</button>
                 </div>
-            
+         </div>
         </div>
     );}else{
       return(

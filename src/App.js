@@ -10,6 +10,7 @@ import Panel from './components/Panel';
 import Create from './components/Create';
 import { Navbar } from './components/Navbar';
 import Favorito from './components/Favorito';
+import Prestamos from './components/Prestamos';
 
 function App() {
   return ( 
@@ -30,6 +31,11 @@ function App() {
                } />
               <Route path='/login' element={<Signin />} />
               <Route path='/register' element={<Signup />} />
+              <Route path='/prestamos' element={
+              <ProtectedRoute>
+                  <Prestamos/>
+              </ProtectedRoute>
+              } />
               <Route path='/favorito' element={
               <ProtectedRoute>
                   <Favorito/>

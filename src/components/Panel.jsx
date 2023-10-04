@@ -1,6 +1,6 @@
 import {Link, useNavigate} from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import Layout from "./Layout";
 import Book from "./Book";
@@ -9,6 +9,31 @@ import Swal from 'sweetalert2';
 export default function Panel(){
     const navigate = useNavigate();
     const [books, setBooks] = useState([]);
+
+    const moveBookToCollection = async (bookToMove, prestamos) => {
+      try {
+       
+      
+        const targetCollectionRef = collection(db, prestamos);
+        await addDoc(targetCollectionRef, bookToMove);
+    
+  
+        const updatedBooks = books.filter((book) => book.id !== bookToMove.id);
+        setBooks(updatedBooks);
+
+        const bookRef = doc(db, 'books', bookToMove.id);
+        console.log('Eliminando libro de la colección original');
+          console.log(bookRef);
+          console.log(bookToMove)
+        await deleteDoc(bookRef);
+    
+     
+        Swal.fire('Libro Prestado Exitosamente', '', 'success');
+      } catch (error) {
+        console.error('Error al mover el libro: ', error);
+      
+      }
+    };
 
     useEffect(() => {
       const fetchBooks = async () => {
@@ -26,6 +51,8 @@ export default function Panel(){
   
       fetchBooks();
     }, []);
+    
+     
 
 
     const handleDelete = async (bookToDelete) => {
@@ -80,6 +107,16 @@ export default function Panel(){
       })     
   }
 
+  const RutasPrest = () => {
+        
+    navigate('/prestamos', {
+      replace: true,
+      state: {
+        logged: true,
+      }
+    })     
+}
+
     const booksContainer = {
         display: "flex",
         flexWrap: "wrap",
@@ -89,13 +126,15 @@ export default function Panel(){
 
     return (
         <Layout>
-            <div >
+            <div>
             <button className="btn-lista" onClick={RutasFav}><Link to="/favorito"  >Lista de Favoritos</Link></button>             
             <button className="btn-panel" onClick={Rutascre}><Link to="/create"  >Crear Libro</Link></button> 
-                
+            <div className="pretsamos">
+                <button className="pretsamosboo" onClick={RutasPrest}><Link to="/prestamos">Prestamos</Link></button>
+            </div>
             <div style={booksContainer}>
                   {books.map((book) => (
-                    <Book key={book.id} item={book} onDelete={handleDelete} />
+                    <Book key={book.id} item={book} onDelete={handleDelete} onClick={moveBookToCollection}/>
                   ))}
             </div>
             </div>
